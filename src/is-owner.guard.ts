@@ -4,7 +4,7 @@ import { HaveOwner } from './have-owner.interface';
 
 export abstract class IsOwnerGuard<T extends HaveOwner> implements CanActivate {
   protected constructor(
-    private fieldName: string,
+    protected fieldName: string,
     private service: TypeOrmCrudService<T>,
   ) {}
 

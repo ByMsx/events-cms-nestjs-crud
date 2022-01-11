@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { Screen } from '../../screens/entities/screen.entity';
 import { User } from '../../users/entities/user.entity';
+import { PlaylistContent } from '../../playlist-content/entities/playlist-content.entity';
 
 @Entity()
 export class Playlist {
@@ -26,4 +27,7 @@ export class Playlist {
 
   @OneToMany(() => Screen, (screen) => screen.playlist)
   screens: Screen[];
+
+  @OneToMany(() => PlaylistContent, (content) => content.playlist)
+  contents: PlaylistContent[];
 }

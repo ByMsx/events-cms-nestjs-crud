@@ -5,7 +5,7 @@ import { Crud, CrudAuth } from '@nestjsx/crud';
 import { CreatePlaylistDto } from './dto/create-playlist.dto';
 import { PlaylistDto } from './dto/playlist.dto';
 import { UpdatePlaylistDto } from './dto/update-playlist.dto';
-import { IsPlaylistOwnerGuard } from './is-playlist-owner.guard';
+import { IsPlaylistOwnerGuard } from './guards/is-playlist-owner.guard';
 
 const defaultOwnerGuards = {
   decorators: [UseGuards(IsPlaylistOwnerGuard)],
@@ -20,6 +20,13 @@ const defaultOwnerGuards = {
   dto: {
     create: CreatePlaylistDto,
     update: UpdatePlaylistDto,
+  },
+  query: {
+    join: {
+      contents: {
+        eager: true,
+      },
+    },
   },
   routes: {
     updateOneBase: defaultOwnerGuards,

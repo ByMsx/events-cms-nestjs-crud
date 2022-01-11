@@ -8,6 +8,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ScreensModule } from './screens/screens.module';
 import { PlaylistsModule } from './playlists/playlists.module';
 import { ContentModule } from './content/content.module';
+import { PlaylistContentModule } from './playlist-content/playlist-content.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { ContentModule } from './content/content.module';
     ScreensModule,
     PlaylistsModule,
     ContentModule,
+    PlaylistContentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
