@@ -1,0 +1,17 @@
+{
+   "migrations": ["dist/migration/**/*.js"],
+   "entities": ["dist/**/entities/*.entity.js"],
+   "seeds": ["dist/seeders/**/*.js"],
+   "cli": {
+      "migrationsDir": "src/migration"
+   },
+   "type": "postgres",
+   "host": "localhost",
+   "username": "example",
+   "password": "example",
+   "database": "example",
+   "autoLoadEntities": true,
+   "synchronize": true,
+   "logger": "simple-console",
+   "logging": "all"
+}

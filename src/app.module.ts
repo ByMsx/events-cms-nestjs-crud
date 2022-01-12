@@ -15,17 +15,7 @@ import { PlaylistContentModule } from './playlist-content/playlist-content.modul
     AuthModule,
     UsersModule,
     EventsModule,
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost', // TODO: do not forget change to db, move it to the app.env
-      username: 'example',
-      password: 'example',
-      database: 'example',
-      autoLoadEntities: true,
-      synchronize: true,
-      logger: 'simple-console',
-      logging: 'all',
-    }),
+    TypeOrmModule.forRoot(),
     ScreensModule,
     PlaylistsModule,
     ContentModule,
