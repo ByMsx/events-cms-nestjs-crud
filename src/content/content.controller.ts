@@ -6,12 +6,11 @@ import { CreateContentDto } from './dto/create-content.dto';
 import { ContentDto } from './dto/content.dto';
 import { UpdateContentDto } from './dto/update-content.dto';
 import { IsContentOwnerGuard } from './is-content-owner.guard';
-
-const defaultOwnerGuard = {
-  decorators: [UseGuards(IsContentOwnerGuard)],
-};
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @UseGuards(JwtAuthGuard)
+@ApiTags('Content')
+@ApiBearerAuth()
 @Controller('content')
 @Crud({
   model: {
@@ -22,9 +21,15 @@ const defaultOwnerGuard = {
     update: UpdateContentDto,
   },
   routes: {
-    replaceOneBase: defaultOwnerGuard,
-    deleteOneBase: defaultOwnerGuard,
-    updateOneBase: defaultOwnerGuard,
+    replaceOneBase: {
+      decorators: [UseGuards(IsContentOwnerGuard)],
+    },
+    updateOneBase: {
+      decorators: [UseGuards(IsContentOwnerGuard)],
+    },
+    deleteOneBase: {
+      decorators: [UseGuards(IsContentOwnerGuard)],
+    },
   },
 })
 @CrudAuth({

@@ -4,8 +4,11 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { Crud } from '@nestjsx/crud';
 import { Screen } from './entities/screen.entity';
 import { CreateScreenDto } from './dto/create-screen.dto';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @UseGuards(JwtAuthGuard)
+@ApiTags('Screens')
+@ApiBearerAuth()
 @Controller('events/:eventId/screens')
 @Crud({
   model: {

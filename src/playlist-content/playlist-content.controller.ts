@@ -7,8 +7,11 @@ import { UpdatePlaylistContentDto } from './dto/update-playlist-content.dto';
 import { PlaylistContentService } from './playlist-content.service';
 import { IsOwnerOfNestedItemsGuard } from './guards/is-owner-of-nested-items.guard';
 import { IsNestedPlaylistOwnerGuard } from './guards/is-nested-playlist-owner.guard';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @UseGuards(JwtAuthGuard)
+@ApiBearerAuth()
+@ApiTags('Playlists')
 @Controller('playlists-contents')
 @Crud({
   model: {

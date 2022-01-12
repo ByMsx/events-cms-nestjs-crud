@@ -6,12 +6,15 @@ import { EventsService } from './events.service';
 import { EventDto } from './dto/event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
 import { IsEventOwnerGuard } from './is-event-owner.guard';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 const checkOwnerGuards = {
   decorators: [UseGuards(IsEventOwnerGuard)],
 };
 
 @UseGuards(JwtAuthGuard)
+@ApiTags('Events')
+@ApiBearerAuth()
 @Crud({
   model: {
     type: EventDto,

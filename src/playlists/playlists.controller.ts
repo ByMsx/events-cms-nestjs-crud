@@ -6,12 +6,15 @@ import { CreatePlaylistDto } from './dto/create-playlist.dto';
 import { PlaylistDto } from './dto/playlist.dto';
 import { UpdatePlaylistDto } from './dto/update-playlist.dto';
 import { IsPlaylistOwnerGuard } from './guards/is-playlist-owner.guard';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 const defaultOwnerGuards = {
   decorators: [UseGuards(IsPlaylistOwnerGuard)],
 };
 
 @UseGuards(JwtAuthGuard)
+@ApiBearerAuth()
+@ApiTags('Playlists')
 @Controller('playlists')
 @Crud({
   model: {

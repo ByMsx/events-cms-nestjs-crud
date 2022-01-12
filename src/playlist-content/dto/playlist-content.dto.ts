@@ -1,4 +1,6 @@
-import { Playlist } from '../../playlists/entities/playlist.entity';
+import { ApiPropertyOptional } from '@nestjs/swagger';
+import { PlaylistDto } from '../../playlists/dto/playlist.dto';
+import { ContentDto } from '../../content/dto/content.dto';
 
 export class PlaylistContentDto {
   playlistId: number;
@@ -6,5 +8,9 @@ export class PlaylistContentDto {
   duration: number;
   order: number;
 
-  playlist?: Playlist;
+  @ApiPropertyOptional({ type: [PlaylistDto] })
+  playlist?: PlaylistDto;
+
+  @ApiPropertyOptional({ type: [ContentDto] })
+  content?: ContentDto;
 }

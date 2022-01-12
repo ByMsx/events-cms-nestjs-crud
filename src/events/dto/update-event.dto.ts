@@ -5,16 +5,19 @@ import {
   IsString,
   MaxLength,
 } from 'class-validator';
+import { ApiPropertyOptional } from '@nestjs/swagger';
 
 export class UpdateEventDto {
   @IsOptional()
   @IsString()
   @IsNotEmpty()
   @MaxLength(32)
-  title: string;
+  @ApiPropertyOptional()
+  title?: string;
 
   @IsOptional()
   @IsDateString()
   @IsNotEmpty()
-  datetime: Date;
+  @ApiPropertyOptional()
+  datetime?: Date;
 }
