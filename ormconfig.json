@@ -1,7 +1,8 @@
 {
    "migrations": ["dist/migration/**/*.js"],
    "entities": ["dist/**/entities/*.entity.js"],
-   "seeds": ["dist/seeders/**/*.js"],
+   "factories": ["dist/seeders/factories/*.factory.js"],
+   "seeds": ["dist/seeders/**/*.seed.js"],
    "cli": {
       "migrationsDir": "src/migration"
    },
