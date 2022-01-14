@@ -16,6 +16,7 @@ export class PlaylistContent {
   @Column()
   playlistId: number;
 
+  //REVIEW: content?
   @ManyToOne(() => Content, (content) => content.id, {
     onUpdate: 'CASCADE',
     onDelete: 'RESTRICT',
