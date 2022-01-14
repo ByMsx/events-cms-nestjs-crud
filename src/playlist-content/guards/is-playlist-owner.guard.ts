@@ -1,9 +1,9 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
-import { PlaylistContentService } from '../playlist-content.service';
+import { PlaylistsRepository } from '../../playlists/playlists.repository';
 
 @Injectable()
-export class IsNestedPlaylistOwnerGuard implements CanActivate {
-  constructor(private service: PlaylistContentService) {}
+export class IsPlaylistOwnerGuard implements CanActivate {
+  constructor(private playlists: PlaylistsRepository) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     if (context.getType() === 'http') {
@@ -11,11 +11,11 @@ export class IsNestedPlaylistOwnerGuard implements CanActivate {
         user,
         params: { id },
       } = context.switchToHttp().getRequest();
-      const playlistContent = await this.service.findOne(id, {
+      const playlist = await this.playlists.findOne(id, {
         relations: ['playlist'],
       });
 
-      return playlistContent.playlist.ownerId === user.id;
+      return playlist.ownerId === user.id;
     }
 
     throw new Error('Unimplemented');

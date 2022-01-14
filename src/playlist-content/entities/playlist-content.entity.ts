@@ -7,13 +7,19 @@ export class PlaylistContent {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Playlist, (playlist) => playlist.contents)
+  @ManyToOne(() => Playlist, (playlist) => playlist.contents, {
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
+  })
   playlist: Playlist;
 
   @Column()
   playlistId: number;
 
-  @ManyToOne(() => Content, (content) => content.id)
+  @ManyToOne(() => Content, (content) => content.id, {
+    onUpdate: 'CASCADE',
+    onDelete: 'RESTRICT',
+  })
   content: Content;
 
   @Column()

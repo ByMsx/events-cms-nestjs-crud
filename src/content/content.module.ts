@@ -9,6 +9,6 @@ import { IsContentOwnerGuard } from './is-content-owner.guard';
   imports: [TypeOrmModule.forFeature([ContentRepository])],
   providers: [IsContentOwnerGuard, ContentService],
   controllers: [ContentController],
-  exports: [ContentService],
+  exports: [TypeOrmModule],
 })
 export class ContentModule {}

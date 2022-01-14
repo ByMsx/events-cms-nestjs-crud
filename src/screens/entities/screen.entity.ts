@@ -7,13 +7,19 @@ export class Screen {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Event, (event) => event.screens)
+  @ManyToOne(() => Event, (event) => event.screens, {
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
+  })
   event: Event;
 
   @Column()
   eventId: number;
 
-  @ManyToOne(() => Playlist, (playlist) => playlist.screens)
+  @ManyToOne(() => Playlist, (playlist) => playlist.screens, {
+    onUpdate: 'CASCADE',
+    onDelete: 'RESTRICT',
+  })
   playlist: Playlist;
 
   @Column()

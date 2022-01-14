@@ -10,6 +10,16 @@ export class UsersService extends TypeOrmCrudService<User> {
     super(repo);
   }
 
+  async signUp(data: { email: string; password: string; fullName: string }) {
+    const { email, fullName } = data;
+
+    return this.repo.create({
+      email,
+      fullName,
+      passwordHash: this.hashPassword(data.password),
+    });
+  }
+
   hashPassword(s: string): string {
     return md5(s);
   }

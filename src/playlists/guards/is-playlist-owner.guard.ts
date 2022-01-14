@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { IsOwnerGuard } from '../../is-owner.guard';
 import { Playlist } from '../entities/playlist.entity';
-import { PlaylistsService } from '../playlists.service';
+import { PlaylistsRepository } from '../playlists.repository';
 
 @Injectable()
 export class IsPlaylistOwnerGuard extends IsOwnerGuard<Playlist> {
-  constructor(srv: PlaylistsService) {
-    super('id', srv);
+  constructor(repo: PlaylistsRepository) {
+    super('id', repo);
   }
 }

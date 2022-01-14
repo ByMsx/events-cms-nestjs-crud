@@ -1,11 +1,11 @@
 import { IsOwnerGuard } from '../is-owner.guard';
 import { Injectable } from '@nestjs/common';
-import { EventsService } from './events.service';
 import { Event } from './entities/event.entity';
+import { EventsRepository } from './events.repository';
 
 @Injectable()
 export class IsEventOwnerGuard extends IsOwnerGuard<Event> {
-  constructor(srv: EventsService) {
-    super('id', srv);
+  constructor(repo: EventsRepository) {
+    super('id', repo);
   }
 }

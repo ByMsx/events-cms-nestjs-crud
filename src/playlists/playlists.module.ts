@@ -9,6 +9,6 @@ import { IsPlaylistOwnerGuard } from './guards/is-playlist-owner.guard';
   imports: [TypeOrmModule.forFeature([PlaylistsRepository])],
   providers: [IsPlaylistOwnerGuard, PlaylistsService],
   controllers: [PlaylistsController],
-  exports: [PlaylistsService],
+  exports: [TypeOrmModule],
 })
 export class PlaylistsModule {}

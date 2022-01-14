@@ -2,9 +2,11 @@ import { Controller, UseGuards } from '@nestjs/common';
 import { PlaylistsService } from './playlists.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { Crud, CrudAuth } from '@nestjsx/crud';
-import { CreatePlaylistDto } from './dto/create-playlist.dto';
+import {
+  CreatePlaylistDto,
+  UpdatePlaylistDto,
+} from './dto/create-playlist.dto';
 import { PlaylistDto } from './dto/playlist.dto';
-import { UpdatePlaylistDto } from './dto/update-playlist.dto';
 import { IsPlaylistOwnerGuard } from './guards/is-playlist-owner.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 

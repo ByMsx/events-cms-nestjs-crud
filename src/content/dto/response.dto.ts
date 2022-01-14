@@ -3,6 +3,7 @@ import { Exclude } from 'class-transformer';
 import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
 
 export class ContentDto {
+  @ApiProperty()
   id: number;
 
   @ApiProperty({ type: 'enum', enum: ContentType })

@@ -1,11 +1,11 @@
 import { CanActivate, ExecutionContext } from '@nestjs/common';
-import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 import { HaveOwner } from './have-owner.interface';
+import { Repository } from 'typeorm';
 
 export abstract class IsOwnerGuard<T extends HaveOwner> implements CanActivate {
   protected constructor(
     protected fieldName: string,
-    private service: TypeOrmCrudService<T>,
+    private service: Repository<T>,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {

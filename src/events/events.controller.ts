@@ -1,10 +1,9 @@
 import { Controller, UseGuards } from '@nestjs/common';
 import { Crud, CrudAuth } from '@nestjsx/crud';
-import { CreateEventDto } from './dto/create-event.dto';
+import { CreateEventDto, UpdateEventDto } from './dto/request.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { EventsService } from './events.service';
 import { EventDto } from './dto/event.dto';
-import { UpdateEventDto } from './dto/update-event.dto';
 import { IsEventOwnerGuard } from './is-event-owner.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 

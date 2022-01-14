@@ -2,11 +2,13 @@ import { Controller, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { Crud, CrudAuth } from '@nestjsx/crud';
 import { PlaylistContentDto } from './dto/playlist-content.dto';
-import { CreatePlaylistContentDto } from './dto/create-playlist-content.dto';
-import { UpdatePlaylistContentDto } from './dto/update-playlist-content.dto';
+import {
+  CreatePlaylistContentDto,
+  UpdatePlaylistContentDto,
+} from './dto/request.dto';
 import { PlaylistContentService } from './playlist-content.service';
-import { IsOwnerOfNestedItemsGuard } from './guards/is-owner-of-nested-items.guard';
-import { IsNestedPlaylistOwnerGuard } from './guards/is-nested-playlist-owner.guard';
+import { IsOwnerOfItemsInRequestBodyGuard } from './guards/is-owner-of-items-in-request-body.guard';
+import { IsPlaylistOwnerGuard } from './guards/is-playlist-owner.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @UseGuards(JwtAuthGuard)
@@ -46,15 +48,15 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
   },
   routes: {
     createOneBase: {
-      decorators: [UseGuards(IsOwnerOfNestedItemsGuard)],
+      decorators: [UseGuards(IsOwnerOfItemsInRequestBodyGuard)],
     },
     updateOneBase: {
       decorators: [
-        UseGuards(IsNestedPlaylistOwnerGuard, IsOwnerOfNestedItemsGuard), // two guards because PlaylistContent record can be stolen by setting only ContentId
+        UseGuards(IsPlaylistOwnerGuard, IsOwnerOfItemsInRequestBodyGuard), // two guards because PlaylistContent record can be stolen by setting only ContentId
       ],
     },
     deleteOneBase: {
-      decorators: [UseGuards(IsNestedPlaylistOwnerGuard)],
+      decorators: [UseGuards(IsPlaylistOwnerGuard)],
     },
   },
 })

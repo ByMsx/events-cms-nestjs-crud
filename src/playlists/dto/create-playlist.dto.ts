@@ -1,5 +1,11 @@
-import { IsDefined, IsNotEmpty, IsString, MaxLength } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import {
+  IsDefined,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  MaxLength,
+} from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreatePlaylistDto {
   @IsDefined()
@@ -8,4 +14,13 @@ export class CreatePlaylistDto {
   @IsNotEmpty()
   @ApiProperty()
   title: string;
+}
+
+export class UpdatePlaylistDto {
+  @IsOptional()
+  @IsString()
+  @IsNotEmpty()
+  @MaxLength(32)
+  @ApiPropertyOptional()
+  title?: string;
 }

@@ -18,7 +18,10 @@ export class Playlist {
   @Column({ nullable: false, length: 32 })
   title: string;
 
-  @ManyToOne(() => User, (user) => user.id)
+  @ManyToOne(() => User, (user) => user.id, {
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
+  })
   @JoinColumn()
   owner: User;
 
@@ -28,6 +31,9 @@ export class Playlist {
   @OneToMany(() => Screen, (screen) => screen.playlist)
   screens: Screen[];
 
-  @OneToMany(() => PlaylistContent, (content) => content.playlist)
+  @OneToMany(() => PlaylistContent, (content) => content.playlist, {
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
+  })
   contents: PlaylistContent[];
 }

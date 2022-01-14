@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  HttpCode,
   Post,
   UseGuards,
   ValidationPipe,
@@ -11,6 +12,9 @@ import { GetRequestUser } from '../get-request-user.decorator';
 import { ApiBody, ApiResponse } from '@nestjs/swagger';
 import { SignInResponseDto } from './dto/sign-in-response.dto';
 import { SignInDto } from './dto/sign-in.dto';
+import { SignUpDto } from './dto/sign-up.dto';
+import { SignUpResponseDto } from './dto/sign-up-response.dto';
+import { plainToInstance } from 'class-transformer';
 
 @Controller('auth')
 export class AuthController {
@@ -23,5 +27,16 @@ export class AuthController {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   signIn(@GetRequestUser() user, @Body(new ValidationPipe()) body: SignInDto) {
     return this.auth.login(user);
+  }
+
+  @ApiBody({ type: SignUpDto })
+  @ApiResponse({ type: SignUpResponseDto, status: 201 })
+  @HttpCode(201)
+  @Post('sign-up')
+  async signUp(
+    @Body(new ValidationPipe()) body: SignUpDto,
+  ): Promise<SignUpResponseDto> {
+    const user = await this.auth.signUp(body);
+    return plainToInstance(SignUpResponseDto, user);
   }
 }

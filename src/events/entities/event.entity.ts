@@ -20,7 +20,10 @@ export class Event implements HaveOwner {
   @Column({ nullable: false })
   datetime: Date;
 
-  @ManyToOne(() => User, (user) => user.events)
+  @ManyToOne(() => User, (user) => user.events, {
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
+  })
   owner: User;
 
   @Column()

@@ -14,7 +14,10 @@ export class Content implements HaveOwner {
   @Column({ length: 256 })
   href: string;
 
-  @ManyToOne(() => User, (user) => user.id)
+  @ManyToOne(() => User, (user) => user.id, {
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE', // TODO: do not forget in part-2 make it restrict, because we must remove file from AWS
+  })
   owner: User;
 
   @Column()

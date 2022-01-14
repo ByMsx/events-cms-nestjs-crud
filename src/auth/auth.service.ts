@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import { User } from '../users/entities/user.entity';
+import { SignUpDto } from './dto/sign-up.dto';
 
 @Injectable()
 export class AuthService {
@@ -15,5 +16,9 @@ export class AuthService {
     return {
       token: this.jwtService.sign({ id: user.id }),
     };
+  }
+
+  signUp(body: SignUpDto) {
+    return this.users.signUp(body);
   }
 }
