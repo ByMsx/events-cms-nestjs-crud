@@ -3,11 +3,11 @@ import { ContentService } from './content.service';
 import { ContentController } from './content.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ContentRepository } from './content.repository';
-import { IsContentOwnerGuard } from './is-content-owner.guard';
+import { IsContentGroupOwnerGuard } from './is-content-group-owner.guard';
 
 @Module({
   imports: [TypeOrmModule.forFeature([ContentRepository])],
-  providers: [IsContentOwnerGuard, ContentService],
+  providers: [IsContentGroupOwnerGuard, ContentService],
   controllers: [ContentController],
   exports: [TypeOrmModule],
 })

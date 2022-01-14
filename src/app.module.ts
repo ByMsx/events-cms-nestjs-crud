@@ -9,6 +9,7 @@ import { PlaylistsModule } from './playlists/playlists.module';
 import { ContentModule } from './content/content.module';
 import { PlaylistContentModule } from './playlist-content/playlist-content.module';
 import { AuthModule } from './auth/auth.module';
+import { ContentGroupModule } from './content-group/content-group.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { AuthModule } from './auth/auth.module';
     PlaylistsModule,
     ContentModule,
     PlaylistContentModule,
+    ContentGroupModule,
     AuthModule,
   ],
   controllers: [AppController],

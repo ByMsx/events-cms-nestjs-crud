@@ -1,25 +1,20 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { User } from '../../users/entities/user.entity';
-import { ContentType } from '../dto/content-type.enum';
-import { HaveOwner } from '../../common/have-owner.interface';
+import { ContentGroup } from '../../content-group/entities/content-group.entity';
 
 @Entity()
-export class Content implements HaveOwner {
+export class Content {
   @PrimaryGeneratedColumn()
   id: number;
-
-  @Column({ enum: ContentType, type: 'enum' })
-  type: ContentType;
 
   @Column({ length: 256 })
   href: string;
 
-  @ManyToOne(() => User, (user) => user.id, {
+  @ManyToOne(() => ContentGroup, (group) => group.id, {
     onUpdate: 'CASCADE',
-    onDelete: 'CASCADE', // TODO: do not forget in part-2 make it restrict, because we must remove file from AWS
+    onDelete: 'RESTRICT', // we must delete it manually because we have a file on AWS S3
   })
-  owner: User;
+  group: ContentGroup;
 
   @Column()
-  ownerId: number;
+  groupId: number;
 }

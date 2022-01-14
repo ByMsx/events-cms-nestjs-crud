@@ -1,15 +1,15 @@
-import { ContentType } from '../../content-group/dto/content-type.enum';
 import { IsDefined, IsEnum, IsOptional } from 'class-validator';
+import { ContentType } from './content-type.enum';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CreateContentDto {
+export class CreateContentGroupDto {
   @IsDefined()
   @IsEnum(ContentType)
-  @ApiProperty({ enum: ContentType, type: 'enum' })
+  @ApiProperty({ type: 'enum', enum: ContentType })
   type: ContentType;
 }
 
-export class UpdateContentDto {
+export class UpdateContentGroupDto {
   @IsOptional()
   @IsEnum(ContentType)
   @ApiProperty({ type: 'enum', enum: ContentType })

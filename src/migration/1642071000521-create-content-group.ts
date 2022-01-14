@@ -5,9 +5,9 @@ import {
   TableColumn,
   TableForeignKey,
 } from 'typeorm';
-import { ContentType } from '../content/dto/content-type.enum';
+import { ContentType } from '../content-group/dto/content-type.enum';
 
-export class createContentGroup1642071000521 implements MigrationInterface {
+export class CreateContentGroup1642071000521 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -95,24 +95,16 @@ export class createContentGroup1642071000521 implements MigrationInterface {
     );
 
     await queryRunner.dropColumns('content', ['type', 'ownerId']);
-
-    await queryRunner.dropForeignKey(
+    await queryRunner.addColumn(
       'playlist_content',
-      new TableForeignKey({
-        name: 'playlist_content',
-        columnNames: ['contentId'],
-        referencedTableName: 'content',
-        referencedColumnNames: ['id'],
-      }),
-    );
-    await queryRunner.changeColumn(
-      'playlist_content',
-      'contentId',
       new TableColumn({
         name: 'contentGroupId',
         type: 'int',
         isNullable: true,
       }),
+    );
+    await queryRunner.query(
+      'UPDATE playlist_content SET "contentGroupId" = "contentId"',
     );
     await queryRunner.dropColumn('playlist_content', 'contentId');
     await queryRunner.createForeignKey(

@@ -1,6 +1,6 @@
 import { define, factory } from 'typeorm-seeding';
 import { Content } from '../../content/entities/content.entity';
-import { ContentType } from '../../content/dto/content-type.enum';
+import { ContentType } from '../../content-group/dto/content-type.enum';
 import { User } from '../../users/entities/user.entity';
 
 define(Content, (faker) => {

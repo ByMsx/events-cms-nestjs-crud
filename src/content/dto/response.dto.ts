@@ -1,4 +1,4 @@
-import { ContentType } from './content-type.enum';
+import { ContentType } from '../../content-group/dto/content-type.enum';
 import { Exclude } from 'class-transformer';
 import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
 

@@ -4,7 +4,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { Crud, CrudAuth } from '@nestjsx/crud';
 import { CreateContentDto, UpdateContentDto } from './dto/request.dto';
 import { ContentDto } from './dto/response.dto';
-import { IsContentOwnerGuard } from './is-content-owner.guard';
+import { IsContentGroupOwnerGuard } from './is-content-group-owner.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { RequestUserDto } from '../users/dto/request-user.dto';
 
@@ -20,23 +20,30 @@ import { RequestUserDto } from '../users/dto/request-user.dto';
     create: CreateContentDto,
     update: UpdateContentDto,
   },
+  query: {
+    join: {
+      group: {
+        eager: true,
+        select: false,
+      },
+    },
+  },
   routes: {
     replaceOneBase: {
-      decorators: [UseGuards(IsContentOwnerGuard)],
+      decorators: [UseGuards(IsContentGroupOwnerGuard)],
     },
     updateOneBase: {
-      decorators: [UseGuards(IsContentOwnerGuard)],
+      decorators: [UseGuards(IsContentGroupOwnerGuard)],
     },
     deleteOneBase: {
-      decorators: [UseGuards(IsContentOwnerGuard)],
+      decorators: [UseGuards(IsContentGroupOwnerGuard)],
     },
   },
 })
 @CrudAuth({
   property: 'user',
-  filter: (user: RequestUserDto) => ({ ownerId: user.id }),
+  filter: (user: RequestUserDto) => ({ 'group.ownerId': user.id }),
   persist: (user: RequestUserDto) => ({
-    ownerId: user.id,
     href: `random-string-${Math.random()}`,
   }),
 })
