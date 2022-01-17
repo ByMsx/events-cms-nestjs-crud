@@ -1,10 +1,12 @@
 import { Controller, UseGuards } from '@nestjs/common';
 import { ScreensService } from './screens.service';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { Crud } from '@nestjsx/crud';
+import { JwtAuthGuard } from '../users/guards/jwt-auth.guard';
+import { Crud, CrudAuth } from '@nestjsx/crud';
 import { Screen } from './entities/screen.entity';
 import { CreateScreenDto } from './dto/create-screen.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { UpdateScreenDto } from './dto/update-screen.dto';
+import { IsBodyEventOwnerGuard } from "./is-body-event-owner.guard";
 
 @UseGuards(JwtAuthGuard)
 @ApiTags('Screens')
@@ -16,6 +18,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
   },
   dto: {
     create: CreateScreenDto,
+    update: UpdateScreenDto,
   },
   params: {
     eventId: {
@@ -24,9 +27,26 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
       field: 'eventId',
     },
   },
-  routes: {
-    exclude: ['updateOneBase', 'replaceOneBase', 'recoverOneBase'],
+  query: {
+    join: {
+      event: {
+        eager: true,
+        select: false,
+        required: true,
+      },
+    },
   },
+  routes: {
+    createOneBase: {
+      decorators: [UseGuards(IsBodyEventOwnerGuard)],
+    },
+  },
+})
+@CrudAuth({
+  property: 'user',
+  filter: (user) => ({
+    'event.ownerId': user.id,
+  }),
 })
 export class ScreensController {
   constructor(public service: ScreensService) {}

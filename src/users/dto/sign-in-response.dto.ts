@@ -1,7 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { UserDto } from './user.dto';
 
-//REVIEW: обычно при sign-in ещё возвращают сущность пользователя
 export class SignInResponseDto {
   @ApiProperty()
   token: string;
+
+  @ApiProperty()
+  user: UserDto;
 }

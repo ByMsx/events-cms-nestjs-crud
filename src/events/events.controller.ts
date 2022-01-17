@@ -1,7 +1,7 @@
 import { Controller, UseGuards } from '@nestjs/common';
 import { Crud, CrudAuth } from '@nestjsx/crud';
 import { CreateEventDto, UpdateEventDto } from './dto/request.dto';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { JwtAuthGuard } from '../users/guards/jwt-auth.guard';
 import { EventsService } from './events.service';
 import { EventDto } from './dto/event.dto';
 import { IsEventOwnerGuard } from './is-event-owner.guard';
@@ -33,7 +33,6 @@ const checkOwnerGuards = {
 })
 @CrudAuth({
   property: 'user',
-  // TODO: specify 'user' type
   filter: (user) => ({ ownerId: user.id }),
   persist: (user) => ({ ownerId: user.id }),
 })

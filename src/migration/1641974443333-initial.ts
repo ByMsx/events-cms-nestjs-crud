@@ -54,7 +54,6 @@ export class initial1641974443333 implements MigrationInterface {
         ],
         foreignKeys: [
           {
-            name: 'content',
             columnNames: ['ownerId'],
             referencedTableName: 'user',
             referencedColumnNames: ['id'],
@@ -89,7 +88,6 @@ export class initial1641974443333 implements MigrationInterface {
         ],
         foreignKeys: [
           {
-            name: 'event',
             columnNames: ['ownerId'],
             referencedTableName: 'user',
             referencedColumnNames: ['id'],
@@ -122,7 +120,6 @@ export class initial1641974443333 implements MigrationInterface {
         ],
         foreignKeys: [
           {
-            name: 'playlist',
             columnNames: ['ownerId'],
             referencedTableName: 'user',
             referencedColumnNames: ['id'],
@@ -154,13 +151,11 @@ export class initial1641974443333 implements MigrationInterface {
         ],
         foreignKeys: [
           {
-            name: 'screen',
             columnNames: ['eventId'],
             referencedTableName: 'event',
             referencedColumnNames: ['id'],
           },
           {
-            name: 'screen',
             columnNames: ['playlistId'],
             referencedTableName: 'playlist',
             referencedColumnNames: ['id'],
@@ -200,13 +195,11 @@ export class initial1641974443333 implements MigrationInterface {
         ],
         foreignKeys: [
           {
-            name: 'playlist_content',
             columnNames: ['contentId'],
             referencedTableName: 'content',
             referencedColumnNames: ['id'],
           },
           {
-            name: 'playlist_content',
             columnNames: ['playlistId'],
             referencedTableName: 'playlist',
             referencedColumnNames: ['id'],
