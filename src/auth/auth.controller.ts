@@ -16,6 +16,7 @@ import { SignUpDto } from './dto/sign-up.dto';
 import { SignUpResponseDto } from './dto/sign-up-response.dto';
 import { plainToInstance } from 'class-transformer';
 
+//REVIEW: Это лучше перенести в users module.
 @Controller('auth')
 export class AuthController {
   constructor(private auth: AuthService) {}
@@ -24,6 +25,8 @@ export class AuthController {
   @ApiBody({ type: SignInDto })
   @ApiResponse({ type: SignInResponseDto, status: 'default' })
   @Post('sign-in')
+  //REVIEW: типизировать user нодо.
+  //REVIEW: body можно убрать тогда.
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   signIn(@GetRequestUser() user, @Body(new ValidationPipe()) body: SignInDto) {
     return this.auth.login(user);
@@ -34,6 +37,7 @@ export class AuthController {
   @HttpCode(201)
   @Post('sign-up')
   async signUp(
+    //REVIEW: сейчас у тебя не отрабатывает Validator. Лучше его глобально подключить.
     @Body(new ValidationPipe()) body: SignUpDto,
   ): Promise<SignUpResponseDto> {
     const user = await this.auth.signUp(body);
