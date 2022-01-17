@@ -11,17 +11,16 @@ export class PlaylistContent {
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
   })
-  playlist: Playlist;
+  playlist?: Playlist;
 
   @Column()
   playlistId: number;
 
-  //REVIEW: content?
   @ManyToOne(() => Content, (content) => content.id, {
     onUpdate: 'CASCADE',
     onDelete: 'RESTRICT',
   })
-  content: Content;
+  content?: Content;
 
   @Column()
   contentId: number;

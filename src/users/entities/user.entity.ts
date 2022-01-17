@@ -1,10 +1,12 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Event } from '../../events/entities/event.entity';
 
-//REVIEW: лучше создать переменную usersTableName и передавать её в декоратор.
-//Так ты сможешь обращаться к таблице из других мест
-@Entity()
+export const usersTableName = 'user';
+
+@Entity(usersTableName)
 export class User {
+  static tableName = usersTableName;
+
   @PrimaryGeneratedColumn()
   id: number;
 
