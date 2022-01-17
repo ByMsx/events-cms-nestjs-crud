@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 export abstract class IsOwnerGuard<T extends HaveOwner> implements CanActivate {
   protected constructor(
     protected fieldName: string,
-    private service: Repository<T>,
+    private repository: Repository<T>,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -14,7 +14,7 @@ export abstract class IsOwnerGuard<T extends HaveOwner> implements CanActivate {
         user,
         params: { [this.fieldName]: id },
       } = context.switchToHttp().getRequest();
-      const instance = await this.service.findOne(id);
+      const instance = await this.repository.findOne(id);
       return !instance || instance.ownerId === user.id;
     }
 

@@ -1,5 +1,5 @@
 import { Controller, UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { JwtAuthGuard } from '../users/guards/jwt-auth.guard';
 import { Crud, CrudAuth } from '@nestjsx/crud';
 import { PlaylistContentDto } from './dto/playlist-content.dto';
 import {

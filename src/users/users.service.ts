@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 import { User } from './entities/user.entity';
 import { UsersRepository } from './users.repository';
 import * as md5 from 'md5';
+import { QueryFailedError } from 'typeorm';
 
 @Injectable()
 export class UsersService extends TypeOrmCrudService<User> {
@@ -13,21 +14,40 @@ export class UsersService extends TypeOrmCrudService<User> {
   async signUp(data: { email: string; password: string; fullName: string }) {
     const { email, fullName } = data;
 
-    return this.repo.create({
+    const user = this.repo.create({
       email,
       fullName,
-      passwordHash: this.hashPassword(data.password),
+      passwordHash: UsersService.hashPassword(data.password),
     });
-  }
 
-  hashPassword(s: string): string {
-    return md5(s);
+    try {
+      await this.repo.save(user);
+      return user;
+    } catch (e) {
+      if (e instanceof QueryFailedError) {
+        if (e.driverError.code === '23505') {
+          throw new HttpException(
+            {
+              status: HttpStatus.BAD_REQUEST,
+              message: 'Email already used by other user',
+            },
+            HttpStatus.BAD_REQUEST,
+          );
+        }
+      }
+
+      throw e;
+    }
   }
 
   findUserByEmailAndPassword(email: string, password: string): Promise<User> {
     return this.findOne({
       email,
-      passwordHash: this.hashPassword(password),
+      passwordHash: UsersService.hashPassword(password),
     });
+  }
+
+  private static hashPassword(s: string): string {
+    return md5(s);
   }
 }

@@ -24,8 +24,9 @@ export class AuthController {
   @ApiBody({ type: SignInDto })
   @ApiResponse({ type: SignInResponseDto, status: 'default' })
   @Post('sign-in')
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  signIn(@GetRequestUser() user, @Body(new ValidationPipe()) body: SignInDto) {
+  async signIn(
+    @GetRequestUser() user: Express.User,
+  ): Promise<SignInResponseDto> {
     return this.auth.login(user);
   }
 
@@ -33,9 +34,7 @@ export class AuthController {
   @ApiResponse({ type: SignUpResponseDto, status: 201 })
   @HttpCode(201)
   @Post('sign-up')
-  async signUp(
-    @Body(new ValidationPipe()) body: SignUpDto,
-  ): Promise<SignUpResponseDto> {
+  async signUp(@Body() body: SignUpDto): Promise<SignUpResponseDto> {
     const user = await this.auth.signUp(body);
     return plainToInstance(SignUpResponseDto, user);
   }
