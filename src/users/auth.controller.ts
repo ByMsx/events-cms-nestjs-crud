@@ -4,7 +4,6 @@ import {
   HttpCode,
   Post,
   UseGuards,
-  ValidationPipe,
 } from '@nestjs/common';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { AuthService } from './auth.service';
@@ -15,6 +14,7 @@ import { SignInDto } from './dto/sign-in.dto';
 import { SignUpDto } from './dto/sign-up.dto';
 import { SignUpResponseDto } from './dto/sign-up-response.dto';
 import { plainToInstance } from 'class-transformer';
+import { User } from './entities/user.entity';
 
 @Controller('auth')
 export class AuthController {
@@ -24,9 +24,7 @@ export class AuthController {
   @ApiBody({ type: SignInDto })
   @ApiResponse({ type: SignInResponseDto, status: 'default' })
   @Post('sign-in')
-  async signIn(
-    @GetRequestUser() user: Express.User,
-  ): Promise<SignInResponseDto> {
+  async signIn(@GetRequestUser() user: User): Promise<SignInResponseDto> {
     return this.auth.login(user);
   }
 

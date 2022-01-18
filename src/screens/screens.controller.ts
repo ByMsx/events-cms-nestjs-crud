@@ -44,7 +44,7 @@ import { IsBodyEventOwnerGuard } from "./is-body-event-owner.guard";
 })
 @CrudAuth({
   property: 'user',
-  filter: (user) => ({
+  filter: (user: RequestUserDto) => ({
     'event.ownerId': user.id,
   }),
 })

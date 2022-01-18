@@ -6,6 +6,7 @@ import { EventsService } from './events.service';
 import { EventDto } from './dto/event.dto';
 import { IsEventOwnerGuard } from './is-event-owner.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { RequestUserDto } from "../users/dto/request-user.dto";
 
 const checkOwnerGuards = {
   decorators: [UseGuards(IsEventOwnerGuard)],
@@ -33,8 +34,8 @@ const checkOwnerGuards = {
 })
 @CrudAuth({
   property: 'user',
-  filter: (user) => ({ ownerId: user.id }),
-  persist: (user) => ({ ownerId: user.id }),
+  filter: (user: RequestUserDto) => ({ ownerId: user.id }),
+  persist: (user: RequestUserDto) => ({ ownerId: user.id }),
 })
 @Controller('events')
 export class EventsController {

@@ -10,6 +10,7 @@ import { PlaylistContentService } from './playlist-content.service';
 import { IsOwnerOfItemsInRequestBodyGuard } from './guards/is-owner-of-items-in-request-body.guard';
 import { IsPlaylistOwnerGuard } from './guards/is-playlist-owner.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { RequestUserDto } from "../users/dto/request-user.dto";
 
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
@@ -62,11 +63,11 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 })
 @CrudAuth({
   property: 'user',
-  filter: (user) => ({
+  filter: (user: RequestUserDto) => ({
     'playlist.ownerId': user.id,
     'content.ownerId': user.id,
   }),
-  persist: (user) => ({
+  persist: (user: RequestUserDto) => ({
     'playlist.ownerId': user.id,
     'content.ownerId': user.id,
   }),
