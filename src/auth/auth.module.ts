@@ -7,9 +7,12 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { jwtSettings } from './constants';
 import { AuthService } from './auth.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UsersRepository } from '../users/users.repository';
 
 @Module({
   imports: [
+    TypeOrmModule.forFeature([UsersRepository]),
     JwtModule.register({
       secret: jwtSettings.secret,
       signOptions: { expiresIn: '10000s' },

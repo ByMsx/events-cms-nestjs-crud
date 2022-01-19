@@ -10,7 +10,7 @@ import { PlaylistContentService } from './playlist-content.service';
 import { IsOwnerOfItemsInRequestBodyGuard } from './guards/is-owner-of-items-in-request-body.guard';
 import { IsPlaylistOwnerGuard } from './guards/is-playlist-owner.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { RequestUserDto } from "../users/dto/request-user.dto";
+import { RequestUserDto } from '../users/dto/request-user.dto';
 
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()

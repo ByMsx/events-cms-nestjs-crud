@@ -6,8 +6,8 @@ import { Screen } from './entities/screen.entity';
 import { CreateScreenDto } from './dto/create-screen.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { UpdateScreenDto } from './dto/update-screen.dto';
-import { IsScreenEventOwnerGuard } from "./is-screen-event-owner-guard.service";
-import { RequestUserDto } from "../users/dto/request-user.dto";
+import { IsScreenEventOwnerGuard } from './is-screen-event-owner-guard.service';
+import { RequestUserDto } from '../users/dto/request-user.dto';
 
 @UseGuards(JwtAuthGuard)
 @ApiTags('Screens')

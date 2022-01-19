@@ -6,7 +6,7 @@ import { CreateContentDto, UpdateContentDto } from './dto/request.dto';
 import { ContentDto } from './dto/response.dto';
 import { IsContentOwnerGuard } from './is-content-owner.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { RequestUserDto } from "../users/dto/request-user.dto";
+import { RequestUserDto } from '../users/dto/request-user.dto';
 
 @UseGuards(JwtAuthGuard)
 @ApiTags('Content')

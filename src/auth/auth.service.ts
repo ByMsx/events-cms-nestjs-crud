@@ -1,29 +1,21 @@
 import { Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import { UsersService } from '../users/users.service';
 import { User } from '../users/entities/user.entity';
-import { SignUpDto } from '../users/dto/sign-up.dto';
-import { plainToInstance } from 'class-transformer';
-import { UserDto } from '../users/dto/user.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { UsersRepository } from '../users/users.repository';
+import { JwtService } from '@nestjs/jwt';
 
-//REVIEW: то, что связано с auth должно быть в auth модуле. Например validate, createToken, verifyToken, AuthGuards.
-// а метод login должен быть в usersModule и он может вызывать, например, createToken из auth.
 @Injectable()
 export class AuthService {
-  constructor(private users: UsersService, private jwtService: JwtService) {}
+  constructor(
+    @InjectRepository(UsersRepository) private users: UsersRepository,
+    private jwtService: JwtService,
+  ) {}
 
   validate(email: string, password: string): Promise<User> {
     return this.users.findUserByEmailAndPassword(email, password);
   }
 
-  async login(user: User) {
-    return {
-      token: this.jwtService.sign({ id: user.id }),
-      user: plainToInstance(UserDto, user),
-    };
-  }
-
-  signUp(body: SignUpDto) {
-    return this.users.signUp(body);
+  createToken(user: User): string {
+    return this.jwtService.sign({ id: user.id });
   }
 }
