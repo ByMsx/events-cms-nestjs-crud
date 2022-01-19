@@ -5,9 +5,9 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { LocalAuthGuard } from './guards/local-auth.guard';
-import { AuthService } from './auth.service';
-import { GetRequestUser } from '../get-request-user.decorator';
+import { LocalAuthGuard } from '../auth/guards/local-auth.guard';
+import { AuthService } from '../auth/auth.service';
+import { GetRequestUser } from '../common/get-request-user.decorator';
 import { ApiBody, ApiResponse } from '@nestjs/swagger';
 import { SignInResponseDto } from './dto/sign-in-response.dto';
 import { SignInDto } from './dto/sign-in.dto';

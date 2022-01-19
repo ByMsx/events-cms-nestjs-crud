@@ -1,11 +1,10 @@
 import { CanActivate, Injectable } from '@nestjs/common';
 import { EventsRepository } from '../events/events.repository';
-import { IsOwnerGuard } from '../is-owner.guard';
+import { IsOwnerGuard } from '../common/is-owner.guard';
 import { EventDto } from '../events/dto/event.dto';
 
 @Injectable()
-//REVIEW: по названию не понятно что проверяется. Может IsScreenEventOwnerGuard?
-export class IsBodyEventOwnerGuard
+export class IsScreenEventOwnerGuard
   extends IsOwnerGuard<EventDto>
   implements CanActivate
 {

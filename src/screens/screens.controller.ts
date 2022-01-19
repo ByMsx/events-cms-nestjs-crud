@@ -1,12 +1,13 @@
 import { Controller, UseGuards } from '@nestjs/common';
 import { ScreensService } from './screens.service';
-import { JwtAuthGuard } from '../users/guards/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { Crud, CrudAuth } from '@nestjsx/crud';
 import { Screen } from './entities/screen.entity';
 import { CreateScreenDto } from './dto/create-screen.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { UpdateScreenDto } from './dto/update-screen.dto';
-import { IsBodyEventOwnerGuard } from "./is-body-event-owner.guard";
+import { IsScreenEventOwnerGuard } from "./is-screen-event-owner-guard.service";
+import { RequestUserDto } from "../users/dto/request-user.dto";
 
 @UseGuards(JwtAuthGuard)
 @ApiTags('Screens')
@@ -38,7 +39,7 @@ import { IsBodyEventOwnerGuard } from "./is-body-event-owner.guard";
   },
   routes: {
     createOneBase: {
-      decorators: [UseGuards(IsBodyEventOwnerGuard)],
+      decorators: [UseGuards(IsScreenEventOwnerGuard)],
     },
   },
 })

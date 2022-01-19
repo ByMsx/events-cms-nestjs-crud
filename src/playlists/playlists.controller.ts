@@ -1,6 +1,6 @@
 import { Controller, UseGuards } from '@nestjs/common';
 import { PlaylistsService } from './playlists.service';
-import { JwtAuthGuard } from '../users/guards/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { Crud, CrudAuth } from '@nestjsx/crud';
 import {
   CreatePlaylistDto,

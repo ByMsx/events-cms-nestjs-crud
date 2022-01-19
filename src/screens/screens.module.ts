@@ -4,11 +4,11 @@ import { ScreensRepository } from './screens.repository';
 import { ScreensService } from './screens.service';
 import { ScreensController } from './screens.controller';
 import { EventsModule } from '../events/events.module';
-import { IsBodyEventOwnerGuard } from './is-body-event-owner.guard';
+import { IsScreenEventOwnerGuard } from './is-screen-event-owner-guard.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([ScreensRepository]), EventsModule],
-  providers: [ScreensService, IsBodyEventOwnerGuard],
+  providers: [ScreensService, IsScreenEventOwnerGuard],
   controllers: [ScreensController],
 })
 export class ScreensModule {}

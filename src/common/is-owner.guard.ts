@@ -2,7 +2,6 @@ import { CanActivate, ExecutionContext } from '@nestjs/common';
 import { HaveOwner } from './have-owner.interface';
 import { Repository } from 'typeorm';
 
-//REVIEW: такие вещи лучше в папку common положить
 export abstract class IsOwnerGuard<T extends HaveOwner> implements CanActivate {
   protected constructor(
     protected fieldName: string,

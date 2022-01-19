@@ -1,6 +1,6 @@
 import { Controller, UseGuards } from '@nestjs/common';
 import { ContentService } from './content.service';
-import { JwtAuthGuard } from '../users/guards/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { Crud, CrudAuth } from '@nestjsx/crud';
 import { CreateContentDto, UpdateContentDto } from './dto/request.dto';
 import { ContentDto } from './dto/response.dto';

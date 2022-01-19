@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { BadRequestException, HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 import { User } from './entities/user.entity';
 import { UsersRepository } from './users.repository';
@@ -28,14 +28,8 @@ export class UsersService extends TypeOrmCrudService<User> {
         // REVIEW: а вдруг там не по email сработает unique ограничение?
         // я бы делал запрос на ИД пользователя с этим email. И если такой есть - то BadRequest. Но можем обсудить
         if (e.driverError.code === '23505') {
-          //REVIEW: можно использовать BadRequestException
-          throw new HttpException(
-            {
-              status: HttpStatus.BAD_REQUEST,
-              message: 'Email already used by other user',
-            },
-            HttpStatus.BAD_REQUEST,
-          );
+          //REVIEW: можно использовать BadRequestException, TODO: проверить насколько он раскрывает ошибку
+          throw new BadRequestException(e, 'Email already used by other user');
         }
       }
 
