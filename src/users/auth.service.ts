@@ -6,6 +6,8 @@ import { SignUpDto } from './dto/sign-up.dto';
 import { plainToInstance } from 'class-transformer';
 import { UserDto } from './dto/user.dto';
 
+//REVIEW: то, что связано с auth должно быть в auth модуле. Например validate, createToken, verifyToken, AuthGuards.
+// а метод login должен быть в usersModule и он может вызывать, например, createToken из auth.
 @Injectable()
 export class AuthService {
   constructor(private users: UsersService, private jwtService: JwtService) {}

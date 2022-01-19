@@ -25,7 +25,10 @@ export class UsersService extends TypeOrmCrudService<User> {
       return user;
     } catch (e) {
       if (e instanceof QueryFailedError) {
+        // REVIEW: а вдруг там не по email сработает unique ограничение?
+        // я бы делал запрос на ИД пользователя с этим email. И если такой есть - то BadRequest. Но можем обсудить
         if (e.driverError.code === '23505') {
+          //REVIEW: можно использовать BadRequestException
           throw new HttpException(
             {
               status: HttpStatus.BAD_REQUEST,
