@@ -9,5 +9,6 @@ import { IsEventOwnerGuard } from './is-event-owner.guard';
   imports: [TypeOrmModule.forFeature([EventsRepository])],
   providers: [IsEventOwnerGuard, EventsService],
   controllers: [EventsController],
+  exports: [TypeOrmModule],
 })
 export class EventsModule {}

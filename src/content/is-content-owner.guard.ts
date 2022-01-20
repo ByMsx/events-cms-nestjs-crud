@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { IsOwnerGuard } from '../is-owner.guard';
+import { IsOwnerGuard } from '../common/is-owner.guard';
 import { Content } from './entities/content.entity';
 import { ContentRepository } from './content.repository';
 

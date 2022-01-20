@@ -1,7 +1,7 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
 import { ContentType } from '../dto/content-type.enum';
-import { HaveOwner } from '../../have-owner.interface';
+import { HaveOwner } from '../../common/have-owner.interface';
 
 @Entity()
 export class Content implements HaveOwner {

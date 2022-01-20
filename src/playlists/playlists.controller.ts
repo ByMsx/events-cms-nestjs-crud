@@ -9,6 +9,7 @@ import {
 import { PlaylistDto } from './dto/playlist.dto';
 import { IsPlaylistOwnerGuard } from './guards/is-playlist-owner.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { RequestUserDto } from '../users/dto/request-user.dto';
 
 const defaultOwnerGuards = {
   decorators: [UseGuards(IsPlaylistOwnerGuard)],
@@ -41,8 +42,8 @@ const defaultOwnerGuards = {
 })
 @CrudAuth({
   property: 'user',
-  filter: (user) => ({ ownerId: user.id }),
-  persist: (user) => ({ ownerId: user.id }),
+  filter: (user: RequestUserDto) => ({ ownerId: user.id }),
+  persist: (user: RequestUserDto) => ({ ownerId: user.id }),
 })
 export class PlaylistsController {
   constructor(public service: PlaylistsService) {}

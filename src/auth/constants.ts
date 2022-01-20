@@ -1,3 +1,3 @@
 export const jwtSettings = {
-  secret: process.env.JWT_SECRET ?? 'supersecret',
+  secret: process.env.JWT_SECRET,
 };

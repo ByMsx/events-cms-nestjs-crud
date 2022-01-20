@@ -1,8 +1,12 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Event } from '../../events/entities/event.entity';
 
-@Entity()
+export const usersTableName = 'user';
+
+@Entity(usersTableName)
 export class User {
+  static tableName = usersTableName;
+
   @PrimaryGeneratedColumn()
   id: number;
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { IsOwnerGuard } from '../../is-owner.guard';
+import { IsOwnerGuard } from '../../common/is-owner.guard';
 import { Playlist } from '../entities/playlist.entity';
 import { PlaylistsRepository } from '../playlists.repository';
 

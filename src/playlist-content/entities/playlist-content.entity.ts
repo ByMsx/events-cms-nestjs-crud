@@ -11,7 +11,7 @@ export class PlaylistContent {
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
   })
-  playlist: Playlist;
+  playlist?: Playlist;
 
   @Column()
   playlistId: number;
@@ -20,7 +20,7 @@ export class PlaylistContent {
     onUpdate: 'CASCADE',
     onDelete: 'RESTRICT',
   })
-  content: Content;
+  content?: Content;
 
   @Column()
   contentId: number;
