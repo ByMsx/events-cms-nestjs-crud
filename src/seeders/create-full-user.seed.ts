@@ -4,8 +4,8 @@ import { User } from '../users/entities/user.entity';
 import { Event } from '../events/entities/event.entity';
 import { Screen } from '../screens/entities/screen.entity';
 import { Playlist } from '../playlists/entities/playlist.entity';
-import { Content } from '../content/entities/content.entity';
 import { PlaylistContent } from '../playlist-content/entities/playlist-content.entity';
+import { ContentGroup } from '../content-group/entities/content-group.entity';
 
 export default class CreateFullUserSeed implements Seeder {
   async run(factory: Factory, connection: Connection): Promise<void> {
@@ -17,8 +17,8 @@ export default class CreateFullUserSeed implements Seeder {
       })
       .createMany(5);
 
-    const content = await factory(Content)()
-      .map(async (content: Content) => {
+    const contentGroup = await factory(ContentGroup)()
+      .map(async (content: ContentGroup) => {
         content.owner = user;
         return content;
       })
@@ -35,7 +35,7 @@ export default class CreateFullUserSeed implements Seeder {
     await factory(PlaylistContent)()
       .map(async (playlistContent) => {
         playlistContent.playlist = playlists[i % 5];
-        playlistContent.content = content[i];
+        playlistContent.contentGroup = contentGroup[i];
         i++;
         return playlistContent;
       })

@@ -1,15 +1,15 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { PlaylistsRepository } from '../../playlists/playlists.repository';
-import { ContentRepository } from '../../content/content.repository';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ContentGroupRepository } from '../../content-group/content-group.repository';
 
 @Injectable()
 export class IsOwnerOfItemsInRequestBodyGuard implements CanActivate {
   constructor(
     @InjectRepository(PlaylistsRepository)
     private playlists: PlaylistsRepository,
-    @InjectRepository(ContentRepository)
-    private content: ContentRepository,
+    @InjectRepository(ContentGroupRepository)
+    private contentGroup: ContentGroupRepository,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -26,7 +26,7 @@ export class IsOwnerOfItemsInRequestBodyGuard implements CanActivate {
       }
 
       if (contentId) {
-        const content = await this.content.findOne(+contentId);
+        const content = await this.contentGroup.findOne(+contentId);
         allowed &&= content.ownerId === user.id;
       }
 

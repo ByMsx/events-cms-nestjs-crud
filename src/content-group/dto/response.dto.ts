@@ -11,7 +11,7 @@ export class ContentGroupDto {
   type: ContentType;
 
   @ApiProperty()
-  contents?: ContentDto;
+  contents?: ContentDto[];
 
   @ApiHideProperty()
   @Exclude()

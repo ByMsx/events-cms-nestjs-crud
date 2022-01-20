@@ -1,4 +1,3 @@
-import { ContentType } from '../../content-group/dto/content-type.enum';
 import { Exclude } from 'class-transformer';
 import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
 
@@ -6,11 +5,18 @@ export class ContentDto {
   @ApiProperty()
   id: number;
 
-  @ApiProperty({ type: 'enum', enum: ContentType })
-  type: ContentType;
-  href: string;
+  @Exclude()
+  @ApiHideProperty()
+  filename: string;
 
   @Exclude()
   @ApiHideProperty()
-  ownerId: number;
+  groupId: number;
 }
+
+export class SignedUrlDto {
+  @ApiProperty()
+  url: string;
+}
+
+export type CreateContentResponseDto = ContentDto & SignedUrlDto;

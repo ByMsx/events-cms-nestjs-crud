@@ -58,9 +58,11 @@ export class CreateContentGroup1642071000521 implements MigrationInterface {
         (content) => `(${content.id}, '${content.type}', ${content.ownerId})`,
       )
       .join(',');
-    await queryRunner.query(
-      `INSERT INTO content_groups ("id", "type", "ownerId") VALUES ${valuesString}`,
-    );
+    if (valuesString?.length > 0) {
+      await queryRunner.query(
+        `INSERT INTO content_groups ("id", "type", "ownerId") VALUES ${valuesString}`,
+      );
+    }
 
     await queryRunner.addColumns('content', [
       new TableColumn({
@@ -114,6 +116,16 @@ export class CreateContentGroup1642071000521 implements MigrationInterface {
         columnNames: ['contentGroupId'],
         referencedTableName: 'content_groups',
         referencedColumnNames: ['id'],
+      }),
+    );
+
+    await queryRunner.changeColumn(
+      'content',
+      'href',
+      new TableColumn({
+        name: 'filename',
+        type: 'varchar(256)',
+        isNullable: false,
       }),
     );
   }

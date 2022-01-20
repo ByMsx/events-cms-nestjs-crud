@@ -7,7 +7,10 @@ export class Content {
   id: number;
 
   @Column({ length: 256 })
-  href: string;
+  filename: string;
+
+  @Column({ length: 64 })
+  extra: string;
 
   @ManyToOne(() => ContentGroup, (group) => group.id, {
     onUpdate: 'CASCADE',

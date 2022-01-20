@@ -1,17 +1,28 @@
-import { ContentType } from '../../content-group/dto/content-type.enum';
-import { IsDefined, IsEnum, IsOptional } from 'class-validator';
+import { IsDefined, IsOptional, MaxLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateContentDto {
   @IsDefined()
-  @IsEnum(ContentType)
-  @ApiProperty({ enum: ContentType, type: 'enum' })
-  type: ContentType;
+  @ApiProperty()
+  contentGroupId: number;
+
+  @IsDefined()
+  @ApiProperty()
+  @MaxLength(64)
+  extra: string;
+
+  @IsDefined()
+  @ApiProperty()
+  filename: string;
 }
 
 export class UpdateContentDto {
   @IsOptional()
-  @IsEnum(ContentType)
-  @ApiProperty({ type: 'enum', enum: ContentType })
-  type?: ContentType;
+  @ApiProperty()
+  contentGroupId?: number;
+
+  @IsOptional()
+  @ApiProperty()
+  @MaxLength(64)
+  extra?: string;
 }
