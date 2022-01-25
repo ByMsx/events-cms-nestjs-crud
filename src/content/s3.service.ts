@@ -9,13 +9,14 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 @Injectable()
 export class S3Service {
   private readonly client = new S3Client({
-    region: 'eu-north-1',
+    region: process.env.S3_REGION,
     credentials: {
-      accessKeyId: 'AKIAXWQH6OB5AZ4IGMI7',
-      secretAccessKey: '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',
+      accessKeyId: process.env.S3_ACCESS_KEY,
+      secretAccessKey: process.env.S3_SECRET_KEY,
     },
   });
-  private bucket = 'bymsx-testing-bucket';
+
+  private bucket = process.env.S3_BUCKET;
 
   async getSignedUploadUrl(
     filename: string,
@@ -39,13 +40,11 @@ export class S3Service {
   }
 
   async removeFile(fileKey: string): Promise<void> {
-    console.log('removeFile');
     const removeFileCommand = new DeleteObjectCommand({
       Bucket: this.bucket,
       Key: fileKey,
     });
 
-    const r = await this.client.send(removeFileCommand);
-    console.dir(r);
+    await this.client.send(removeFileCommand);
   }
 }
