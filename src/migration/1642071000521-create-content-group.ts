@@ -119,13 +119,13 @@ export class CreateContentGroup1642071000521 implements MigrationInterface {
       }),
     );
 
-    await queryRunner.changeColumn(
+    await queryRunner.addColumn(
       'content',
-      'href',
       new TableColumn({
-        name: 'filename',
-        type: 'varchar(256)',
+        isUnique: true,
         isNullable: false,
+        name: 'fileKey',
+        type: 'varchar(64)',
       }),
     );
   }

@@ -3,7 +3,11 @@ import { Controller, UseGuards } from '@nestjs/common';
 import { ContentGroupService } from './content-group.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { ContentGroupDto } from './dto/response.dto';
-import { CreateContentGroupDto, UpdateContentGroupDto } from "./dto/request.dto";
+import {
+  CreateContentGroupDto,
+  UpdateContentGroupDto,
+} from './dto/request.dto';
+import { RequestUserDto } from '../users/dto/request-user.dto';
 
 @UseGuards(JwtAuthGuard)
 @Crud({
@@ -18,8 +22,8 @@ import { CreateContentGroupDto, UpdateContentGroupDto } from "./dto/request.dto"
 })
 @CrudAuth({
   property: 'user',
-  filter: (user) => ({ ownerId: user.id }),
-  persist: (user) => ({ ownerId: user.id }),
+  filter: (user: RequestUserDto) => ({ ownerId: user.id }),
+  persist: (user: RequestUserDto) => ({ ownerId: user.id }),
 })
 @Controller('content-groups')
 export class ContentGroupController {

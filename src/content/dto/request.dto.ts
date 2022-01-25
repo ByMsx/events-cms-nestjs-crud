@@ -1,11 +1,7 @@
 import { IsDefined, IsOptional, MaxLength } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
 
 export class CreateContentDto {
-  @IsDefined()
-  @ApiProperty()
-  contentGroupId: number;
-
   @IsDefined()
   @ApiProperty()
   @MaxLength(64)
@@ -13,7 +9,11 @@ export class CreateContentDto {
 
   @IsDefined()
   @ApiProperty()
-  filename: string;
+  @MaxLength(64)
+  fileKey: string;
+
+  @ApiHideProperty()
+  href: string;
 }
 
 export class UpdateContentDto {
@@ -25,4 +25,11 @@ export class UpdateContentDto {
   @ApiProperty()
   @MaxLength(64)
   extra?: string;
+}
+
+export class GetUploadLinkDto {
+  @IsDefined()
+  @ApiProperty()
+  @MaxLength(64)
+  filename: string;
 }

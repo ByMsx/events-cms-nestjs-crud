@@ -7,7 +7,7 @@ export class ContentDto {
 
   @Exclude()
   @ApiHideProperty()
-  filename: string;
+  fileKey: string;
 
   @Exclude()
   @ApiHideProperty()
@@ -20,3 +20,11 @@ export class SignedUrlDto {
 }
 
 export type CreateContentResponseDto = ContentDto & SignedUrlDto;
+
+export class GetUploadLinkResponseDto {
+  @ApiProperty()
+  url: string;
+
+  @ApiProperty()
+  fileKey: string;
+}

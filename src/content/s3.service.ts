@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import {
   DeleteObjectCommand,
-  GetObjectCommand,
   PutObjectCommand,
   S3Client,
 } from '@aws-sdk/client-s3';
@@ -9,42 +8,44 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
 @Injectable()
 export class S3Service {
-  private readonly client = new S3Client({ region: 'eu-north-1' });
+  private readonly client = new S3Client({
+    region: 'eu-north-1',
+    credentials: {
+      accessKeyId: 'AKIAXWQH6OB5AZ4IGMI7',
+      secretAccessKey: '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',
+    },
+  });
   private bucket = 'bymsx-testing-bucket';
 
   async getSignedUploadUrl(
     filename: string,
-  ): Promise<{ url: string; filename: string }> {
-    const newFilename = `${Math.random().toString().slice(2)}-${filename}`;
+  ): Promise<{ url: string; fileKey: string }> {
+    const fileKey = `${Math.random().toString().slice(2)}-${filename}`;
     const putFileCommand = new PutObjectCommand({
       Bucket: this.bucket,
-      Key: newFilename,
+      Key: fileKey,
+      ACL: 'public-read',
     });
 
     const url = await getSignedUrl(this.client, putFileCommand, {
       expiresIn: 300,
     });
 
-    return { url, filename: newFilename };
+    return { url, fileKey };
   }
 
-  async getSignedDownloadFileHref(filename: string): Promise<string> {
-    const getFileCommand = new GetObjectCommand({
-      Bucket: this.bucket,
-      Key: filename,
-    });
-
-    return getSignedUrl(this.client, getFileCommand, {
-      expiresIn: 3600,
-    });
+  getFileHref(fileKey: string): string {
+    return `https://${this.bucket}.s3.amazonaws.com/${fileKey}`;
   }
 
-  async removeFile(filename: string): Promise<void> {
+  async removeFile(fileKey: string): Promise<void> {
+    console.log('removeFile');
     const removeFileCommand = new DeleteObjectCommand({
       Bucket: this.bucket,
-      Key: filename,
+      Key: fileKey,
     });
 
-    await this.client.send(removeFileCommand);
+    const r = await this.client.send(removeFileCommand);
+    console.dir(r);
   }
 }

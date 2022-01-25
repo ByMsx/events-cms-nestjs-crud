@@ -1,35 +1,30 @@
 import {
+  Body,
   Controller,
-  Get,
-  Param,
-  ParseIntPipe,
+  Post,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
-import {
-  Crud,
-  CrudAuth,
-  CrudRequest,
-  Override,
-  ParsedBody,
-  ParsedRequest,
-} from '@nestjsx/crud';
+import { Crud, CrudAuth } from '@nestjsx/crud';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { ContentService } from './content.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { CreateContentDto, UpdateContentDto } from './dto/request.dto';
 import {
-  ContentDto,
-  CreateContentResponseDto,
-  SignedUrlDto,
-} from './dto/response.dto';
+  CreateContentDto,
+  GetUploadLinkDto,
+  UpdateContentDto,
+} from './dto/request.dto';
+import { ContentDto, GetUploadLinkResponseDto } from './dto/response.dto';
 import { IsContentGroupOwnerGuard } from './is-content-group-owner.guard';
 import { S3Service } from './s3.service';
 import { RequestUserDto } from '../users/dto/request-user.dto';
+import { GetHrefInterceptor } from './get-href.interceptor';
+import { RemoveFileOnS3 } from './remove-file-on-s3.interceptor';
 
 @UseGuards(JwtAuthGuard)
 @ApiTags('Content')
 @ApiBearerAuth()
-@Controller('content')
+@Controller('/content-groups/:groupId/content')
 @Crud({
   model: {
     type: ContentDto,
@@ -46,7 +41,28 @@ import { RequestUserDto } from '../users/dto/request-user.dto';
       },
     },
   },
+  params: {
+    groupId: {
+      type: 'number',
+      field: 'groupId',
+      primary: false,
+    },
+  },
   routes: {
+    only: [
+      'createOneBase',
+      'replaceOneBase',
+      'updateOneBase',
+      'deleteOneBase',
+      'getManyBase',
+      'getOneBase',
+    ],
+    createOneBase: {
+      decorators: [
+        UseGuards(IsContentGroupOwnerGuard),
+        UseInterceptors(GetHrefInterceptor),
+      ],
+    },
     replaceOneBase: {
       decorators: [UseGuards(IsContentGroupOwnerGuard)],
     },
@@ -54,49 +70,25 @@ import { RequestUserDto } from '../users/dto/request-user.dto';
       decorators: [UseGuards(IsContentGroupOwnerGuard)],
     },
     deleteOneBase: {
-      decorators: [UseGuards(IsContentGroupOwnerGuard)],
+      decorators: [
+        UseGuards(IsContentGroupOwnerGuard),
+        UseInterceptors(RemoveFileOnS3),
+      ],
     },
   },
 })
 @CrudAuth({
   property: 'user',
   filter: (user: RequestUserDto) => ({ 'group.ownerId': user.id }),
-  persist: (user: RequestUserDto) => ({
-    href: `random-string-${Math.random()}`,
-  }),
 })
 export class ContentController {
   constructor(public service: ContentService, public s3: S3Service) {}
 
-  @Override('createOneBase')
-  public async createOneBase(
-    @ParsedRequest() req: CrudRequest,
-    @ParsedBody() dto: CreateContentDto,
-  ): Promise<CreateContentResponseDto> {
-    const { url, filename } = await this.s3.getSignedUploadUrl(dto.filename);
-    const content = await this.service.createOne(req, {
-      ...dto,
-      filename,
-    });
-    return { ...content, url };
-  }
-
-  @Get('/:id/link')
-  public async getDownloadLink(
-    @Param('id', ParseIntPipe) id: number,
-  ): Promise<SignedUrlDto> {
-    const content = await this.service.findOne(id);
-    const url = await this.s3.getSignedDownloadFileHref(content.filename);
-    return { url };
-  }
-
-  @Override('deleteOneBase')
-  public async deleteOneBase(@ParsedRequest() req: CrudRequest): Promise<void> {
-    const content = await this.service.deleteOne(req);
-    if (content) {
-      await this.s3.removeFile(content.filename);
-    } else {
-      throw new Error('content assertion failed');
-    }
+  @Post('/upload')
+  @UseGuards(IsContentGroupOwnerGuard)
+  public async getUploadLink(
+    @Body() body: GetUploadLinkDto,
+  ): Promise<GetUploadLinkResponseDto> {
+    return this.s3.getSignedUploadUrl(body.filename);
   }
 }

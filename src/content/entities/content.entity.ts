@@ -7,7 +7,10 @@ export class Content {
   id: number;
 
   @Column({ length: 256 })
-  filename: string;
+  fileKey: string;
+
+  @Column({ length: 512 })
+  href: string;
 
   @Column({ length: 64 })
   extra: string;

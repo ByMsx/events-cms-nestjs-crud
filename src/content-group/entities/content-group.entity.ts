@@ -7,9 +7,9 @@ import {
 } from 'typeorm';
 import { ContentType } from '../dto/content-type.enum';
 import { User } from '../../users/entities/user.entity';
-import { HaveOwner } from '../../have-owner.interface';
 import { Content } from '../../content/entities/content.entity';
 import { ContentDto } from '../../content/dto/response.dto';
+import { HaveOwner } from '../../common/have-owner.interface';
 
 @Entity()
 export class ContentGroup implements HaveOwner {

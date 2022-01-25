@@ -7,15 +7,25 @@ export class IsContentGroupOwnerGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     if (context.getType() === 'http') {
-      const {
-        user,
-        body: { contentGroupId },
-      } = context.switchToHttp().getRequest();
-      const contentGroup = await this.repo.findOne(contentGroupId);
+      const { user, body, params } = context.switchToHttp().getRequest();
 
-      return contentGroup.ownerId === user.id;
+      let allowed = await this.checkGroupOwner(user.id, params.groupId);
+
+      if (body?.groupId) {
+        allowed &&= await this.checkGroupOwner(user.id, body.groupId);
+      }
+
+      return allowed;
     }
 
     throw new Error('Unimplemented');
+  }
+
+  private async checkGroupOwner(
+    userId: number,
+    groupId: number,
+  ): Promise<boolean> {
+    const contentGroup = await this.repo.findOne(groupId);
+    return contentGroup.ownerId === userId;
   }
 }

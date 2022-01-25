@@ -5,10 +5,7 @@ import { ContentGroup } from '../../content-group/entities/content-group.entity'
 define(Content, (faker) => {
   const content = new Content();
   content.group = factory(ContentGroup)() as any;
-  content.filename = faker.system.fileName(
-    'jpg',
-    faker.system.commonFileType(),
-  );
+  content.href = faker.internet.url();
   content.extra = faker.system.mimeType();
   return content;
 });
