@@ -7,12 +7,13 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
-  app.enableCors();
+  app.enableCors(); // for testing auth0 with example SPA
   const config = new DocumentBuilder()
     .setTitle('The Events CMS')
     .setDescription('')
     .setVersion('1.0')
-    .addTag('Content', 'Управление контентом для экранов')
+    .addTag('ContentGroup', 'Управление группами контента для экранов')
+    .addTag('Content', 'Управление контентом в группах')
     .addTag('Screens', 'Управление экранами')
     .addTag('Playlists', 'Плейлисты')
     .addTag('Events', 'Мероприятия')

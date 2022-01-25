@@ -6,7 +6,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { Crud, CrudAuth } from '@nestjsx/crud';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ContentService } from './content.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import {
@@ -20,6 +20,7 @@ import { S3Service } from './s3.service';
 import { RequestUserDto } from '../users/dto/request-user.dto';
 import { GetHrefInterceptor } from './get-href.interceptor';
 import { RemoveFileOnS3 } from './remove-file-on-s3.interceptor';
+import { AppendHrefToResponseInterceptor } from './append-href-to-response.interceptor';
 
 @UseGuards(JwtAuthGuard)
 @ApiTags('Content')
@@ -57,17 +58,29 @@ import { RemoveFileOnS3 } from './remove-file-on-s3.interceptor';
       'getManyBase',
       'getOneBase',
     ],
+    getManyBase: {
+      decorators: [UseInterceptors(AppendHrefToResponseInterceptor)],
+    },
+    getOneBase: {
+      decorators: [UseInterceptors(AppendHrefToResponseInterceptor)],
+    },
     createOneBase: {
       decorators: [
         UseGuards(IsContentGroupOwnerGuard),
-        UseInterceptors(GetHrefInterceptor),
+        UseInterceptors(GetHrefInterceptor, AppendHrefToResponseInterceptor),
       ],
     },
     replaceOneBase: {
-      decorators: [UseGuards(IsContentGroupOwnerGuard)],
+      decorators: [
+        UseGuards(IsContentGroupOwnerGuard),
+        UseInterceptors(AppendHrefToResponseInterceptor),
+      ],
     },
     updateOneBase: {
-      decorators: [UseGuards(IsContentGroupOwnerGuard)],
+      decorators: [
+        UseGuards(IsContentGroupOwnerGuard),
+        UseInterceptors(AppendHrefToResponseInterceptor),
+      ],
     },
     deleteOneBase: {
       decorators: [
@@ -86,6 +99,11 @@ export class ContentController {
 
   @Post('/upload')
   @UseGuards(IsContentGroupOwnerGuard)
+  @ApiResponse({
+    type: GetUploadLinkResponseDto,
+    description: 'Signed S3 link for file uploading',
+    status: 201,
+  })
   public async getUploadLink(
     @Body() body: GetUploadLinkDto,
   ): Promise<GetUploadLinkResponseDto> {

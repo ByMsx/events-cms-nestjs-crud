@@ -4,6 +4,7 @@ import {
   Table,
   TableColumn,
   TableForeignKey,
+  TableUnique,
 } from 'typeorm';
 import { ContentType } from '../content-group/dto/content-type.enum';
 
@@ -126,6 +127,14 @@ export class CreateContentGroup1642071000521 implements MigrationInterface {
         isNullable: false,
         name: 'fileKey',
         type: 'varchar(64)',
+      }),
+    );
+    await queryRunner.dropColumn('content', 'href');
+
+    await queryRunner.createUniqueConstraint(
+      'content',
+      new TableUnique({
+        columnNames: ['groupId', 'extra'],
       }),
     );
   }

@@ -8,6 +8,7 @@ import { ContentGroupRepository } from '../content-group/content-group.repositor
 import { S3Service } from './s3.service';
 import { GetHrefInterceptor } from './get-href.interceptor';
 import { RemoveFileOnS3 } from './remove-file-on-s3.interceptor';
+import { AppendHrefToResponseInterceptor } from './append-href-to-response.interceptor';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { RemoveFileOnS3 } from './remove-file-on-s3.interceptor';
     ContentService,
     GetHrefInterceptor,
     RemoveFileOnS3,
+    AppendHrefToResponseInterceptor,
   ],
   controllers: [ContentController],
   exports: [TypeOrmModule],

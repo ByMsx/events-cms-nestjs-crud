@@ -1,16 +1,20 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  Unique,
+} from 'typeorm';
 import { ContentGroup } from '../../content-group/entities/content-group.entity';
 
 @Entity()
+@Unique(['groupId', 'extra'])
 export class Content {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ length: 256 })
+  @Column({ length: 64, unique: true })
   fileKey: string;
-
-  @Column({ length: 512 })
-  href: string;
 
   @Column({ length: 64 })
   extra: string;

@@ -21,6 +21,9 @@ export class GetUploadLinkResponseDto {
   @ApiProperty()
   url: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    type: 'string',
+    description: 'Use this key in CreateContentDto after file uploading',
+  })
   fileKey: string;
 }

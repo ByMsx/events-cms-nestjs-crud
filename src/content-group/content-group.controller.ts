@@ -8,8 +8,11 @@ import {
   UpdateContentGroupDto,
 } from './dto/request.dto';
 import { RequestUserDto } from '../users/dto/request-user.dto';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @UseGuards(JwtAuthGuard)
+@ApiTags('ContentGroup')
+@ApiBearerAuth()
 @Crud({
   model: {
     type: ContentGroupDto,
