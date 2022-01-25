@@ -5,6 +5,9 @@ export class ContentDto {
   @ApiProperty()
   id: number;
 
+  @ApiProperty()
+  href: string;
+
   @Exclude()
   @ApiHideProperty()
   fileKey: string;
@@ -13,13 +16,6 @@ export class ContentDto {
   @ApiHideProperty()
   groupId: number;
 }
-
-export class SignedUrlDto {
-  @ApiProperty()
-  url: string;
-}
-
-export type CreateContentResponseDto = ContentDto & SignedUrlDto;
 
 export class GetUploadLinkResponseDto {
   @ApiProperty()
