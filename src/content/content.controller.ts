@@ -18,7 +18,6 @@ import { ContentDto, GetUploadLinkResponseDto } from './dto/response.dto';
 import { IsContentGroupOwnerGuard } from './is-content-group-owner.guard';
 import { S3Service } from './s3.service';
 import { RequestUserDto } from '../users/dto/request-user.dto';
-import { GetHrefInterceptor } from './get-href.interceptor';
 import { RemoveFileOnS3 } from './remove-file-on-s3.interceptor';
 import { AppendHrefToResponseInterceptor } from './append-href-to-response.interceptor';
 
@@ -67,7 +66,7 @@ import { AppendHrefToResponseInterceptor } from './append-href-to-response.inter
     createOneBase: {
       decorators: [
         UseGuards(IsContentGroupOwnerGuard),
-        UseInterceptors(GetHrefInterceptor, AppendHrefToResponseInterceptor),
+        UseInterceptors(AppendHrefToResponseInterceptor),
       ],
     },
     replaceOneBase: {
