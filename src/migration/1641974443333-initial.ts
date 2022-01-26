@@ -8,7 +8,7 @@ export class initial1641974443333 implements MigrationInterface {
         columns: [
           {
             name: 'email',
-            type: 'varchar(32)',
+            type: 'varchar(64)',
             isUnique: true,
           },
           {
