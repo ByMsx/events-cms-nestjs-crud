@@ -53,17 +53,9 @@ export class CreateContentGroup1642071000521 implements MigrationInterface {
       true,
     );
 
-    const contents = await queryRunner.query('SELECT * FROM content');
-    const valuesString = contents
-      .map(
-        (content) => `(${content.id}, '${content.type}', ${content.ownerId})`,
-      )
-      .join(',');
-    if (valuesString?.length > 0) {
-      await queryRunner.query(
-        `INSERT INTO content_groups ("id", "type", "ownerId") VALUES ${valuesString}`,
-      );
-    }
+    await queryRunner.query(
+      `INSERT INTO "content_group" SELECT id, "type", "ownerId" FROM "content";`,
+    );
 
     await queryRunner.addColumns('content', [
       new TableColumn({
