@@ -1,17 +1,35 @@
-import { ContentType } from './content-type.enum';
-import { IsDefined, IsEnum, IsOptional } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { IsDefined, IsOptional, MaxLength } from 'class-validator';
+import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
 
 export class CreateContentDto {
   @IsDefined()
-  @IsEnum(ContentType)
-  @ApiProperty({ enum: ContentType, type: 'enum' })
-  type: ContentType;
+  @ApiProperty()
+  @MaxLength(64)
+  extra: string;
+
+  @IsDefined()
+  @ApiProperty()
+  @MaxLength(64)
+  fileKey: string;
+
+  @ApiHideProperty()
+  href: string;
 }
 
 export class UpdateContentDto {
   @IsOptional()
-  @IsEnum(ContentType)
-  @ApiProperty({ type: 'enum', enum: ContentType })
-  type?: ContentType;
+  @ApiProperty()
+  contentGroupId?: number;
+
+  @IsOptional()
+  @ApiProperty()
+  @MaxLength(64)
+  extra?: string;
+}
+
+export class GetUploadLinkDto {
+  @IsDefined()
+  @ApiProperty()
+  @MaxLength(64)
+  filename: string;
 }

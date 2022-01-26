@@ -1,6 +1,6 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Playlist } from '../../playlists/entities/playlist.entity';
-import { Content } from '../../content/entities/content.entity';
+import { ContentGroup } from '../../content-group/entities/content-group.entity';
 
 @Entity()
 export class PlaylistContent {
@@ -16,14 +16,14 @@ export class PlaylistContent {
   @Column()
   playlistId: number;
 
-  @ManyToOne(() => Content, (content) => content.id, {
+  @ManyToOne(() => ContentGroup, (contentGroup) => contentGroup.id, {
     onUpdate: 'CASCADE',
     onDelete: 'RESTRICT',
   })
-  content?: Content;
+  contentGroup: ContentGroup;
 
   @Column()
-  contentId: number;
+  contentGroupId: number;
 
   @Column()
   duration: number;
