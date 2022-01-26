@@ -54,12 +54,12 @@ export class CreateContentGroup1642071000521 implements MigrationInterface {
     );
 
     await queryRunner.query(
-      `INSERT INTO "content_group" SELECT id, "type", "ownerId" FROM "content";`,
+      'INSERT INTO "content_groups" (id, "type", "ownerId")  SELECT id, "type"::text::content_groups_type_enum AS "type", "ownerId" FROM "content";',
     );
 
     await queryRunner.addColumns('content', [
       new TableColumn({
-        name: 'contentGroupId',
+        name: 'groupId',
         type: 'int',
         isNullable: true,
       }),
@@ -69,12 +69,12 @@ export class CreateContentGroup1642071000521 implements MigrationInterface {
         isNullable: true,
       }),
     ]);
-    await queryRunner.query('UPDATE content SET "contentGroupId" = id;');
+    await queryRunner.query('UPDATE content SET "groupId" = id;');
     await queryRunner.changeColumn(
       'content',
-      'contentGroupId',
+      'groupId',
       new TableColumn({
-        name: 'contentGroupId',
+        name: 'groupId',
         type: 'int',
         isNullable: false,
       }),
@@ -83,7 +83,7 @@ export class CreateContentGroup1642071000521 implements MigrationInterface {
       'content',
       new TableForeignKey({
         name: 'content',
-        columnNames: ['contentGroupId'],
+        columnNames: ['groupId'],
         referencedTableName: 'content_groups',
         referencedColumnNames: ['id'],
       }),
