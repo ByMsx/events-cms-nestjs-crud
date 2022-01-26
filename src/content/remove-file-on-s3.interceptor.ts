@@ -4,7 +4,7 @@ import {
   Injectable,
   NestInterceptor,
 } from '@nestjs/common';
-import { Observable, tap } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { S3Service } from './s3.service';
 import { ContentRepository } from './content.repository';
 
@@ -20,11 +20,19 @@ export class RemoveFileOnS3 implements NestInterceptor {
       const { id: contentId } = context.switchToHttp().getRequest().params;
       const { fileKey } = await this.content.findOne(contentId);
 
-      return next.handle().pipe(
-        tap(async () => {
-          await this.s3.removeFile(fileKey);
-        }),
-      );
+      try {
+        await this.s3.removeFile(fileKey);
+        return next.handle();
+      } catch (e) {
+        context.switchToHttp().getResponse().status(500);
+
+        return of({
+          error: {
+            message: 'Can not remove file from AWS S3',
+            code: 'aws-s3/remove-file',
+          },
+        });
+      }
     }
 
     throw new Error('Unimplemented');
