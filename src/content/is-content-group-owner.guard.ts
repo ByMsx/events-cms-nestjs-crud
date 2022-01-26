@@ -25,7 +25,9 @@ export class IsContentGroupOwnerGuard implements CanActivate {
     userId: number,
     groupId: number,
   ): Promise<boolean> {
-    const contentGroup = await this.repo.findOne(groupId);
+    const contentGroup = await this.repo.findOne(groupId, {
+      select: ['ownerId'],
+    });
     return contentGroup.ownerId === userId;
   }
 }
